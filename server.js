@@ -38,7 +38,14 @@ app.get(`${config.PATH}/get`, async (req, res) => {
 
 app.get(`${config.PATH}/all`, async (req, res) => {
     let a = await jobDB.find()
-    res.json({status: true, return: a})
+    let temp = []
+    a.map(i => {
+        console.log("iii", i)
+        temp.push(JSON.parse(i.json))
+    })
+
+    console.log("temp", temp)
+    res.json({status: true, return: temp})
 })
 
 
