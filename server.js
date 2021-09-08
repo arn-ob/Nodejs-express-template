@@ -5,7 +5,6 @@ const cors = require('cors')
 const config = require('./config')
 const jobDB = require('./mongo')
 
-
 // mongodb
 config.mongodb()
 
@@ -15,8 +14,6 @@ app.use(bodyParser.json({ limit: '50mb' }))
 app.use(cors())
 
 // NOTE curl http://localhost:5012/xx/ok
-
-// NOTE Add Route
 app.get(`${config.PATH}/ok`, (req, res) => {
     res.send("ok")
 })
