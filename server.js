@@ -5,18 +5,22 @@ const cors = require('cors')
 const config = require('./config')
 const jobDB = require('./mongo')
 
+
 // mongodb
 config.mongodb()
+
 
 // NOTE Config Server
 app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' })) // parse application/x-www-form-urlencoded
 app.use(bodyParser.json({ limit: '50mb' }))
 app.use(cors())
 
+
 // NOTE curl http://localhost:5012/xx/ok
 app.get(`${config.PATH}/ok`, (req, res) => {
     res.send("ok")
 })
+
 
 app.post(`${config.PATH}/set`, async (req, res) => {
     await jobDB.deleteMany()
@@ -44,7 +48,6 @@ app.get(`${config.PATH}/all`, async (req, res) => {
     console.log("temp", temp)
     res.json({status: true, return: temp})
 })
-
 
 
 // NOTE Deploy Server
