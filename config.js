@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+
+// localhost -> Host
+// 5234 -> Port
+// jobs -> Database Name
 const liveOrLocal = "mongodb://localhost:5234/jobs"
 
 mongoose.Promise = Promise;
