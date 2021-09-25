@@ -3,12 +3,10 @@ const app = express()
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const config = require('./config')
-const jobDB = require('./mongo')
-
+const jobModel = require('./model/jobs')
 
 // mongodb
-config.mongodb()
-
+config.mongodb();
 
 // NOTE Config Server
 app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' })) // parse application/x-www-form-urlencoded
@@ -23,33 +21,39 @@ app.get(`${config.PATH}/ok`, (req, res) => {
 
 
 app.post(`${config.PATH}/set`, async (req, res) => {
-    await jobDB.deleteMany()
-    await jobDB.insertMany([{
+    await jobModel.deleteMany()
+    await jobModel.insertMany([{
         json: req.body.jobs
     }])
-    res.json({status: true})
+    res.json({ status: true })
 })
 
 
 app.get(`${config.PATH}/get`, async (req, res) => {
-    let a = await jobDB.find()
-    res.json({status: true, return: a[0]})
+    let a = await jobModel.find()
+    res.json({ status: true, return: a[0] })
 })
 
 
 app.get(`${config.PATH}/all`, async (req, res) => {
-    let a = await jobDB.find()
-    let temp = []
-    
-    a.map(i => {
-        temp.push(JSON.parse(i.json))
-    })
 
-    res.json({status: true, return: temp})
+    let temp = [];
+
+    let a = await jobModel.find();
+    a.map(i => temp.push(JSON.parse(i.json)));
+
+    res.json({ status: true, return: temp });
 })
 
+process
+    .on('unhandledRejection', (reason, p) => {
+        console.error(reason, 'Unhandled Rejection at Promise', p);
+    })
+    .on('uncaughtException', err => {
+        console.error(err, 'Uncaught Exception thrown');
+    });
 
 // NOTE Deploy Server
 app.listen(config.PORT, () => {
-    console.log(`Server Running at ${config.PORT}`)
+    console.log(`Server Running at ${config.PORT}`);
 });

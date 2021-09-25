@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 // 5234 -> Port
 // jobs -> Database Name
 const liveOrLocal = "mongodb://localhost:5234/jobs"
+const port = 5012
+const path = "/xx"
+
 
 mongoose.Promise = Promise;
-
 const connect = () => {
     mongoose.connect(liveOrLocal, {
         keepAlive: 1,
@@ -17,7 +19,7 @@ const connect = () => {
 };
 
 module.exports = {
-    PORT: 5012,
-    PATH: '/xx',
+    PORT: port,
+    PATH: path,
     mongodb: connect
 }
